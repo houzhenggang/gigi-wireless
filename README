@@ -1,0 +1,62 @@
+README
+
+ Created on: 02-Oct-2016
+     Author: Sumit Mukherjee
+     
+The WIreless Digital Audio Transfer or WiDAT for short, is a Linux based 
+application for transferring sampled audio data from a client known as "talker" 
+to another client (or server) called "listener".
+
+The sampled audio data that the widat program can transfer could be acquired 
+from either
+(1) stored .wav file
+(2) real time audio captured from microphone.
+
+In the second case, widat utilizes the ALSA library to capture the audio samples.
+On the listener end, the play-back of the received audio samples is done via
+ALSA library play-back API calls.
+
+Pre-requisite for building from source
+========================================
+In order to compile the widat program successfully, the following linux packages
+need to be installed as dependency :
+* libasound2
+* libasound2-dev
+
+Instructions for build
+========================
+On the top level, for building the listener, invoke
+make listener
+
+To build the talker, invoke :
+make talker
+
+If the widat talker is to record data from microphone, build it as :
+make AUDIO_SRC=mic talker
+
+To clean all the build binaries, invoke :
+make clean
+
+To build both the talker and listener in one shot :
+make all
+or
+make AUDIO_SRC=mic all
+
+Using the widat program
+========================
+On the host which is to send the audio data, invoke the talker program :
+./talker <host> <filename.wav>
+or
+./talker <host> 
+
+In the first case, the mentioned file's audio data is transferred to any 
+online listener program running on host.
+In the second case, the talker program captures audio from microphone and sends
+the samples to the listener.
+
+On the host which is to receive the transferred audio sample data, invoke :
+./listener
+
+Both the listener and talker programs are designed to run infinitely, hence
+once execution is started for the programs, enter Control+C to terminate
+the programs.
